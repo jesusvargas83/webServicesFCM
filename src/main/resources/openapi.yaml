@@ -1,0 +1,272 @@
+openapi: 3.0.1
+info:
+  title: INTEGRACION CARPETA CIUDADANA DIGITAL
+  description: >-
+    Esta es la API por la que las diversas entidades que prestan servicios a los
+    ciudadanos en el estado colombiano pueden o servir información típica de
+    dicha interacción en su operación.
+  termsOfService: 'https://and.gov.co/servicios-ciudadanos-digitales/'
+  contact:
+    name: AGENCIA NACIONAL DIGITAL
+    url: 'https://and.gov.co/'
+    email: agencianacionaldigital@and.gov.co
+  license:
+    name: MIT
+    url: 'http://opensource.org/licenses/MIT'
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+servers:
+  - url: 'http://localhost:9090/'
+  - url: 'https://localhost:9090/'
+tags:
+  - name: alertasycomunicaciones
+    description: >-
+      Permite obtener las alertas y comunicaciones destinadas al ciudadano de
+      parte de la entidad
+  - name: solicitudes
+    description: Permite obtener las solicitudes realizadas por el ciudadano a la entidad
+  - name: tramites
+    description: Permite obtener los tramites realizados por el ciudadano a la entidad
+  - name: informacion
+    description: Permite obtener la informacion que se tiene de el ciudadano por la entidad
+paths:
+  '/alertasYComunicaciones/{tipoId}/{idUsuario}':
+    get:
+      tags:
+        - alertasycomunicaciones
+      summary: >-
+        Retorna multiples alertas y o comunicaiones que se han generado para el
+        ciudadano, opera por metodo get
+      description: >-
+        Servicio de Consulta de Comunicaciones y Alertas que los usuarios del
+        servicio de carpeta Ciudadana han recibido de la Entidad Pública
+      operationId: consultaAlertasComunicaciones
+      parameters:
+        - name: tipoId
+          in: path
+          description: Tipo de documento
+          required: true
+          schema:
+            type: string
+            pattern: ^CC$
+        - name: idUsuario
+          in: path
+          description: Numero de documento
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{1,10}$'
+            example: 80010939
+      responses:
+        '200':
+          description: Consulta satisfactoria de ciudadano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertasYComunicaciones'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '410':
+          $ref: '#/components/responses/Unavailable'
+  '/solicitudesUsuarios/{tipoId}/{idUsuario}':
+    get:
+      tags:
+        - solicitudes
+      summary: >-
+        Retorna multiples solicitudes que ha realizado el ciudadano, opera por
+        metodo get
+      description: >-
+        Servicio de Consulta de Histórico de las Solicitudes de Peticiones,
+        Quejas y Reclamos que los usuarios del servicio de carpeta Ciudadana han
+        solicitado ante la Entidad Pública
+      operationId: consultaSolicitudes
+      parameters:
+        - name: tipoId
+          in: path
+          description: Tipo de documento
+          required: true
+          schema:
+            type: string
+            pattern: ^CC$
+        - name: idUsuario
+          in: path
+          description: Numero de documento
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{1,10}$'
+            example: 80010939
+      responses:
+        '200':
+          description: Consulta satisfactoria de ciudadano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/solicitudes'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '410':
+          $ref: '#/components/responses/Unavailable'
+  '/tramitesInicializadosUsuarios/{tipoId}/{idUsuario}':
+    get:
+      tags:
+        - tramites
+      summary: Se consultan solicitudes por metodo get
+      description: Retorna multiples solicitudes que ha realizado el ciudaddano
+      operationId: consultaTramites
+      parameters:
+        - name: tipoId
+          in: path
+          description: Tipo de documento
+          required: true
+          schema:
+            type: string
+            pattern: ^CC$
+        - name: idUsuario
+          in: path
+          description: Numero de documento
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{1,10}$'
+            example: 80010939
+      responses:
+        '200':
+          description: Consulta satisfactoria de ciudadano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tramites'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '410':
+          $ref: '#/components/responses/Unavailable'
+  '/servicio/{tipoId}/{idUsuario}':
+    get:
+      tags:
+        - informacion
+      summary: Se consultan solicitudes por metodo get
+      description: Retorna multiples solicitudes que ha realizado el ciudaddano
+      operationId: consultaInformacion
+      parameters:
+        - name: tipoId
+          in: path
+          description: Tipo de documento
+          required: true
+          schema:
+            type: string
+            pattern: ^CC$
+        - name: idUsuario
+          in: path
+          description: Numero de documento
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{1,10}$'
+            example: 80010939
+      responses:
+        '200':
+          description: Consulta satisfactoria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/informacion'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '410':
+          $ref: '#/components/responses/Unavailable'
+components:
+  responses:
+    BadRequest:
+      description: Datos ciudadano de entrada en formato inválido
+      content: {}
+    Unavailable:
+      description: El recurso fuente de datos no esta disponible
+      content: {}
+  schemas:
+    alertasYComunicaciones:
+      type: object
+      properties:
+        mensajeColeccion:
+          type: array
+          items:
+            type: object
+            properties:
+              idMensaje:
+                type: string
+              asunto:
+                type: string
+              textoMensaje:
+                type: string
+              urlDescargueAdjuntos:
+                type: string
+              fechaMensaje:
+                type: string
+    solicitudes:
+      type: object
+      properties:
+        solicituddePqr:
+          type: array
+          items:
+            type: object
+            properties:
+              idSolicitud:
+                type: string
+              nomSolicitud:
+                type: string
+              fechaSolicitud:
+                type: string
+              estadoSolicitudPqrUsuario:
+                type: string
+                description: Estado de solicitud
+                enum:
+                  - REALIZADA
+                  - PENDIENTE
+                  - RESUELTA
+              textoRespuesta:
+                type: string
+                description: Respuesta a presentar de la solicitud
+    tramites:
+      type: object
+      properties:
+        tramiteUsuarioEntidad:
+          type: array
+          items:
+            type: object
+            properties:
+              idTramiteEntidad:
+                type: string
+              nomTramiteGenerado:
+                type: string
+              fechaRealizaTramiteUsuario:
+                type: string
+              servicioConsulta:
+                type: string
+              estadoTramiteUsuario:
+                type: string
+              entidadConsultada:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nomEntidad:
+                      type: string
+                    fechaConsultada:
+                      type: string
+    informacion:
+      type: object
+      properties:
+        datoConsultado:
+          type: array
+          items:
+            type: object
+            properties:
+              campoDato:
+                type: string
+              valorDato:
+                type: string
+        urlDescarga:
+          type: string
+      

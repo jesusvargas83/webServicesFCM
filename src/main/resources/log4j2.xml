@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">            
+            %d{yyyy-MM-dd HH:mm:ss.SSS} [M_ADCE] %5p ${hostName} --- [%15.15t] %-40.40C{1.1} : %m%n%ex
+        </Property>
+        <Property name="log-path">D:/TEMP/</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <!-- Rolling File Appender -->
+        <RollingFile name="File-Errores" fileName="${log-path}/errores.log"
+                     filePattern="${log-path}/errores-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Filters>
+                <!-- Solo aceptar errores -->
+                <ThresholdFilter level="error"  onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+            
+        </RollingFile>
+        
+        <RollingFile name="File-Infos" fileName="${log-path}/infos.log"
+                     filePattern="${log-path}/infos-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Filters>
+                <!-- First filtrar alertas,errores y fatales -->
+                <ThresholdFilter level="warn"  onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="fatal" onMatch="DENY" onMismatch="NEUTRAL"/>
+
+                <!-- Solamente aceptar errores -->
+                <ThresholdFilter level="info"  onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <AsyncLogger name="co.gov.integrador.carpetaCiudadana" level="debug"
+                     additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="File-Errores" />
+            <AppenderRef ref="File-Infos" />
+        </AsyncLogger>
+
+        <Root level="info">
+            <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="File-Errores" />
+            <AppenderRef ref="File-Infos" />
+        </Root>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,13 @@
+## YAML Template.
+
+spring:
+    application:
+        name: IntegradorCarpetaCiudadana
+    jackson: 
+        serialization: 
+            fail-on-empty-beans: false
+            
+info.name: IntegradorCarpetaCiudadana
+            
+server:
+    port: 9090
