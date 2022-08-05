@@ -50,7 +50,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: ^CC$
+            pattern: ^CC|CE$
         - name: idUsuario
           in: path
           description: Numero de documento
@@ -89,7 +89,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: ^CC$
+            pattern: ^CC|CE$
         - name: idUsuario
           in: path
           description: Numero de documento
@@ -123,7 +123,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: ^CC$
+            pattern: ^CC|CE$
         - name: idUsuario
           in: path
           description: Numero de documento
@@ -157,7 +157,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: ^CC$
+            pattern: ^CC|CE$
         - name: idUsuario
           in: path
           description: Numero de documento
