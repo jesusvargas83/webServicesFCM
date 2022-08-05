@@ -29,7 +29,7 @@ import org.springframework.http.ResponseEntity;
  * @author jmcp1
  */
 public interface ServicioCiudadanoValidable {
-    final Pattern PATRON_TIPOS_ID = Pattern.compile("^CC$");
+    final Pattern PATRON_TIPOS_ID = Pattern.compile("^CC|CE$");
     final Pattern PATRON_IDENTIFICACION = Pattern.compile("^\\d{1,10}$");
 
     default void validacionTipica(String tipoId, String idUsuario) throws LogicaException {

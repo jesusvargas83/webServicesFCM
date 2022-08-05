@@ -30,6 +30,8 @@ public class ServicioLogica implements ServicioApiDelegate, ServicioCiudadanoVal
 	// Constantes para comparación y asignación
 	private static final String CC = "CC";
 	private static final String CONVERSION_CC = "1";
+	private static final String CE = "CE";
+	private static final String CONVERSION_CE = "3";
 
 	private static final Logger LOGGER = LogManager.getLogger(ServicioLogica.class);
 
@@ -71,6 +73,8 @@ public class ServicioLogica implements ServicioApiDelegate, ServicioCiudadanoVal
 
 			if (tipoId.equals(CC)) {
 				tipoId = CONVERSION_CC;
+			} else if (tipoId.equals(CE)) {
+				tipoId = CONVERSION_CE;
 			}
 
 			List<String> responseValues = pazYSalvoSoapService.getPazYSalvo(tipoId, idUsuario);
